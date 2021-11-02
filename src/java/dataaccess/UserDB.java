@@ -109,15 +109,15 @@ public class UserDB {
         }
     }
 
-    public void delete(Note note) throws Exception {
+    public void delete(User user) throws Exception {
         ConnectionPool cp = ConnectionPool.getInstance();
         Connection con = cp.getConnection();
         PreparedStatement ps = null;
-        String sql = "DELETE FROM note WHERE note_id=?";
+        String sql = "DELETE FROM user WHERE email=?";
 
         try {
             ps = con.prepareStatement(sql);
-            ps.setInt(1, note.getNoteId());
+            ps.setString(1, user.getEmail());
             ps.executeUpdate();
         } finally {
             DBUtil.closePreparedStatement(ps);
