@@ -90,17 +90,18 @@ public class UserDB {
         }
     }
 
-    public void update(Note note) throws Exception {
+    public void update(User user) throws Exception {
         ConnectionPool cp = ConnectionPool.getInstance();
         Connection con = cp.getConnection();
         PreparedStatement ps = null;
-        String sql = "UPDATE note SET title=?, contents=? WHERE note_id=?";
+        String sql = "UPDATE user SET active=?, first_name=?, last_name=?, role=?, WHERE email=?";
 
         try {
             ps = con.prepareStatement(sql);
-            ps.setString(1, note.getTitle());
-            ps.setString(2, note.getContents());
-            ps.setInt(3, note.getNoteId());
+            ps.setBoolean(1, user.isActive());
+            ps.setString(2, user.getFirst_name());
+            ps.setString(3, user.getLast_name());
+            ps.setInt(4, user.getRole());
             ps.executeUpdate();
         } finally {
             DBUtil.closePreparedStatement(ps);
