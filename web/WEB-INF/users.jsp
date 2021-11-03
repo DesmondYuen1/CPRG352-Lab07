@@ -1,3 +1,7 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -47,18 +51,44 @@
 
         <div>
             <h1>Edit User</h1>
-            <form action="" method="POST">
-                <input type="text" name="first_nameUp" placeholder="First Name" value="" disabled="true"><br>
-                <input type="text" name="last_nameUp" placeholder="Last Name" value="" disabled="true"><br>
 
-                <select name="roleUp" disabled="true">
-                    <option value="1">system admin</option>
-                    <option value="2">regular user</option>
-                    <option value="3">company admin</option>
-                </select><br>
+            <c:if test="${editUser ne null}">
+                <form action="users" method="POST">
+                    <input type="text" name="first_nameUp" placeholder="First Name" value="${selectedUser.first_name}"><br>
+                    <input type="text" name="last_nameUp" placeholder="Last Name" value="${selectedUser.last_name}"><br>
 
-                <input type="submit" value="Update" disabled="true">
-                <input type="hidden" name="action" value="update">
+                    <select name="roleUp">
+                        <option value="1">system admin</option>
+                        <option value="2">regular user</option>
+                        <option value="3">company admin</option>
+                    </select><br>
 
-            </form>
+                    <input type="checkbox" name="active" id="active" value="active">
+                    <label for="active">Active</label><br>
+
+                    <input type="submit" value="Update">
+                    <input type="hidden" name="action" value="update">
+                </form>
+            </c:if>
+            <c:if test="${editUser eq null}">
+                <form action="users" method="POST">
+                    <input type="text" name="first_nameUp" placeholder="First Name" value="" disabled="true"><br>
+                    <input type="text" name="last_nameUp" placeholder="Last Name" value=""  disabled="true"><br>
+
+                    <select name="roleUp" disabled="true">
+                        <option value="1">system admin</option>
+                        <option value="2">regular user</option>
+                        <option value="3">company admin</option>
+                    </select><br>
+
+                    <input type="checkbox" name="active" id="active" value="active"  disabled="true">
+                    <label for="active">Active</label><br>
+
+                    <input type="submit" value="Update"  disabled="true">
+                    <input type="hidden" name="action" value="update">
+                </form>
+            </c:if>
+
         </div>
+    </body>
+</html>

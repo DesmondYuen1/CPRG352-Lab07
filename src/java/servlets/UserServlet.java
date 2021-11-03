@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import models.User;
 import services.UserService;
 
@@ -17,15 +18,26 @@ public class UserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        HttpSession session = request.getSession();
+        String action = request.getParameter("action");
         UserService us = new UserService();
 
-        if (request.getParameter("action") != null) {
-            if (request.getParameter("action").equals("delete")) {
+        if (action != null) {
+            if (action.equals("delete")) {
                 String deletedUser = request.getParameter("deletedUser");
                 try {
                     us.delete(deletedUser);
                     response.sendRedirect("users");
                     return;
+                } catch (Exception ex) {
+                    Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (action.equals("edit")) {
+                String editUser = request.getParameter("editUser");
+                try {
+                    User user = us.get(editUser);
+                    request.setAttribute("selectedUser", user);
                 } catch (Exception ex) {
                     Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
