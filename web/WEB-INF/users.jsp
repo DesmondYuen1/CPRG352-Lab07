@@ -12,16 +12,16 @@
                 <input type="text" name="first_name" placeholder="First Name" value=""><br>
                 <input type="text" name="last_name" placeholder="Last Name" value=""><br>
                 <input type="password" name="password" placeholder="Password" value=""><br>
-                
+
                 <select name="role">
                     <option value="1">system admin</option>
                     <option value="2">regular user</option>
                     <option value="3">company admin</option>
                 </select><br>
-                
+
                 <input type="checkbox" name="active" id="active" value="active">
                 <label for="active">Active</label><br>
-                
+
                 <input type="submit" value="Save">
                 <input type="hidden" name="action" value="add">
             </form>
@@ -36,6 +36,7 @@
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Role</th>
+                    <th>Edit</th>
                     <th>Delete</th>
                 </tr>
 
@@ -46,4 +47,18 @@
 
         <div>
             <h1>Edit User</h1>
+            <form action="" method="POST">
+                <input type="text" name="first_nameUp" placeholder="First Name" value="" disabled="true"><br>
+                <input type="text" name="last_nameUp" placeholder="Last Name" value="" disabled="true"><br>
+
+                <select name="roleUp" disabled="true">
+                    <option value="1">system admin</option>
+                    <option value="2">regular user</option>
+                    <option value="3">company admin</option>
+                </select><br>
+
+                <input type="submit" value="Update" disabled="true">
+                <input type="hidden" name="action" value="update">
+
+            </form>
         </div>

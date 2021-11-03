@@ -59,7 +59,14 @@ public class UserServlet extends HttpServlet {
                         break;
                 }
 
-                users += "<tr><td>" + email + "</td><td>" + active + "</td><td>" + first_name + "</td><td>" + last_name + "</td><td>" + role + "</td><td><a href='users?action=delete&deletedUser=" + email + "'>Delete</a></td></tr>";
+                users += "<tr><td>" + email + "</td>"
+                        + "<td>" + active + "</td>"
+                        + "<td>" + first_name + "</td>"
+                        + "<td>" + last_name + "</td>"
+                        + "<td>" + role + "</td>"
+                        + "<td><a href=users?action=edit&editUser=" + email + "'>Edit</a></td>"
+                        + "<td><a href='users?action=delete&deletedUser=" + email + "'>Delete</a></td>"
+                        + "</tr>";
 
             }
 
@@ -129,7 +136,14 @@ public class UserServlet extends HttpServlet {
                         break;
                 }
 
-                users += "<tr><td>" + email + "</td><td>" + active + "</td><td>" + first_name + "</td><td>" + last_name + "</td><td>" + role + "</td><td><a href='users?action=delete&deletedUser=" + email + "'>Delete</a></td></tr>";
+                users += "<tr><td>" + email + "</td>"
+                        + "<td>" + active + "</td>"
+                        + "<td>" + first_name + "</td>"
+                        + "<td>" + last_name + "</td>"
+                        + "<td>" + role + "</td>"
+                        + "<td><a href=users?action=edit&editUser=" + email + "'>Edit</a></td>"
+                        + "<td><a href='users?action=delete&deletedUser=" + email + "'>Delete</a></td>"
+                        + "</tr>";
 
             }
 
