@@ -8,7 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import models.User;
 import services.UserService;
 
@@ -18,72 +17,51 @@ public class UserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
-        String action = request.getParameter("action");
         UserService us = new UserService();
 
+        String action = request.getParameter("action");
         if (action != null) {
-            if (action.equals("delete")) {
-                String deletedUser = request.getParameter("deletedUser");
+            if (action.equals("edit")) {
+                String selectedUser = request.getParameter("selectedUser");
                 try {
-                    us.delete(deletedUser);
-                    response.sendRedirect("users");
+                    User user = us.get(selectedUser);
+                    request.setAttribute("selectedUser", user);
+                    try {
+                        List<User> users = us.getAll();
+                        request.setAttribute("users", users);
+                    } catch (Exception ex) {
+                        Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
                     return;
                 } catch (Exception ex) {
                     Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            if (action.equals("edit")) {
-                String editUser = request.getParameter("editUser");
+            if (action.equals("delete")) {
+                String deletedUser = request.getParameter("deletedUser");
                 try {
-                    User user = us.get(editUser);
-                    request.setAttribute("selectedUser", user);
+                    us.delete(deletedUser);
                 } catch (Exception ex) {
                     Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
+
             }
+
+            try {
+                List<User> users = us.getAll();
+                request.setAttribute("users", users);
+            } catch (Exception ex) {
+                Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            response.sendRedirect("users");
+            return;
+
         }
 
-        String users = "";
-
         try {
-            List<User> usersList = us.getAll();
-            for (int i = 0; i < usersList.size(); i++) {
-                String email = usersList.get(i).getEmail();
-                String active = "";
-                if (usersList.get(i).isActive()) {
-                    active = "active";
-                } else {
-                    active = "inactive";
-                }
-                String first_name = usersList.get(i).getFirst_name();
-                String last_name = usersList.get(i).getLast_name();
-                String role = "";
-                switch (usersList.get(i).getRole()) {
-                    case 1:
-                        role = "system admin";
-                        break;
-                    case 2:
-                        role = "regular user";
-                        break;
-                    default:
-                        role = "company admin";
-                        break;
-                }
-
-                users += "<tr><td>" + email + "</td>"
-                        + "<td>" + active + "</td>"
-                        + "<td>" + first_name + "</td>"
-                        + "<td>" + last_name + "</td>"
-                        + "<td>" + role + "</td>"
-                        + "<td><a href=users?action=edit&editUser=" + email + "'>Edit</a></td>"
-                        + "<td><a href='users?action=delete&deletedUser=" + email + "'>Delete</a></td>"
-                        + "</tr>";
-
-            }
-
+            List<User> users = us.getAll();
             request.setAttribute("users", users);
-
         } catch (Exception ex) {
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -97,11 +75,11 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String action = request.getParameter("action");
+        UserService us = new UserService();
 
-        if (action.equals("add")) {
+        String action = request.getParameter("action");
+        if (action != null && action.equals("add")) {
             try {
-                UserService us = new UserService();
                 String email = request.getParameter("email");
                 String first_name = request.getParameter("first_name");
                 String last_name = request.getParameter("last_name");
@@ -118,47 +96,19 @@ public class UserServlet extends HttpServlet {
                 Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+            try {
+                List<User> users = us.getAll();
+                request.setAttribute("users", users);
+            } catch (Exception ex) {
+                Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            response.sendRedirect("users");
+            return;
+
         }
 
-        String users = "";
-
         try {
-            UserService us = new UserService();
-            List<User> usersList = us.getAll();
-            for (int i = 0; i < usersList.size(); i++) {
-                String email = usersList.get(i).getEmail();
-                String active = "";
-                if (usersList.get(i).isActive()) {
-                    active = "active";
-                } else {
-                    active = "inactive";
-                }
-                String first_name = usersList.get(i).getFirst_name();
-                String last_name = usersList.get(i).getLast_name();
-                String role = "";
-                switch (usersList.get(i).getRole()) {
-                    case 1:
-                        role = "system admin";
-                        break;
-                    case 2:
-                        role = "regular user";
-                        break;
-                    default:
-                        role = "company admin";
-                        break;
-                }
-
-                users += "<tr><td>" + email + "</td>"
-                        + "<td>" + active + "</td>"
-                        + "<td>" + first_name + "</td>"
-                        + "<td>" + last_name + "</td>"
-                        + "<td>" + role + "</td>"
-                        + "<td><a href=users?action=edit&editUser=" + email + "'>Edit</a></td>"
-                        + "<td><a href='users?action=delete&deletedUser=" + email + "'>Delete</a></td>"
-                        + "</tr>";
-
-            }
-
+            List<User> users = us.getAll();
             request.setAttribute("users", users);
 
         } catch (Exception ex) {
@@ -169,5 +119,4 @@ public class UserServlet extends HttpServlet {
         return;
 
     }
-
 }
