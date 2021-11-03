@@ -17,10 +17,24 @@ public class UserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        UserService us = new UserService();
+
+        if (request.getParameter("action") != null) {
+            if (request.getParameter("action").equals("delete")) {
+                String deletedUser = request.getParameter("deletedUser");
+                try {
+                    us.delete(deletedUser);
+                    response.sendRedirect("users");
+                    return;
+                } catch (Exception ex) {
+                    Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
         String users = "";
 
         try {
-            UserService us = new UserService();
             List<User> usersList = us.getAll();
             for (int i = 0; i < usersList.size(); i++) {
                 String email = usersList.get(i).getEmail();
@@ -45,7 +59,7 @@ public class UserServlet extends HttpServlet {
                         break;
                 }
 
-                users += "<tr><td>" + email + "</td><td>" + active + "</td><td>" + first_name + "</td><td>" + last_name + "</td><td>" + role + "</td><td><a href='users?action=delete&email=" + email + "'>Delete</a></td></tr>";
+                users += "<tr><td>" + email + "</td><td>" + active + "</td><td>" + first_name + "</td><td>" + last_name + "</td><td>" + role + "</td><td><a href='users?action=delete&deletedUser=" + email + "'>Delete</a></td></tr>";
 
             }
 
@@ -56,7 +70,6 @@ public class UserServlet extends HttpServlet {
         }
 
         getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
-
         return;
 
     }
@@ -116,7 +129,7 @@ public class UserServlet extends HttpServlet {
                         break;
                 }
 
-                users += "<tr><td>" + email + "</td><td>" + active + "</td><td>" + first_name + "</td><td>" + last_name + "</td><td>" + role + "</td><td><a href='users?action=delete&email=" + email + "'>Delete</a></td></tr>";
+                users += "<tr><td>" + email + "</td><td>" + active + "</td><td>" + first_name + "</td><td>" + last_name + "</td><td>" + role + "</td><td><a href='users?action=delete&deletedUser=" + email + "'>Delete</a></td></tr>";
 
             }
 
