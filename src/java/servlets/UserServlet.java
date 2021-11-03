@@ -47,8 +47,9 @@ public class UserServlet extends HttpServlet {
 
                 users += "<tr><td>" + email + "</td>" + "<td>" + active + "</td>" + "<td>" + first_name + "</td>" + "<td>" + last_name + "</td>" + "<td>" + role + "</td></tr>";
 
-                request.setAttribute("users", users);
             }
+
+            request.setAttribute("users", users);
 
         } catch (Exception ex) {
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);

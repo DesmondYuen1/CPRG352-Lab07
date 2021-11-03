@@ -20,10 +20,9 @@
                     <th>Last Name</th>
                     <th>Role</th>
                 </tr>
-
+                
                 ${users}
-
-
+                
             </table>
         </div>
 
