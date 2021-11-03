@@ -32,6 +32,7 @@
         </div>
 
         <div>
+            ${message}
             <h1>Manage Users</h1>
             <table cellpadding="7" border="1">
                 <tr>
@@ -79,56 +80,26 @@
         <div>
             <h1>Edit User</h1>
 
-            <c:if test="${selectedUser eq null}">
-                <form action="users" method="POST">
-                    <input type="text" name="first_nameUp" placeholder="First Name" value="" disabled="true"><br>
-                    <input type="text" name="last_nameUp" placeholder="Last Name" value="" disabled="true"><br>
+            <form action="" method="POST">
+                <input type="text" name="first_nameUp" placeholder="First Name" value="${selectedUser.first_name}"><br>
+                <input type="text" name="last_nameUp" placeholder="Last Name" value="${selectedUser.last_name}"><br>
 
-                    <select name="roleUp" disabled="true">
-                        <option value="1">system admin</option>
-                        <option value="2">regular user</option>
-                        <option value="3">company admin</option>
-                    </select><br>
 
-                    <input type="checkbox" name="activeUp" id="activeUp" value="activeUp" disabled="true">
-                    <label for="activeUp">Active</label><br>
+                <select name="roleUp">
+                    <option value="1">system admin</option>
+                    <option value="2">regular user</option>
+                    <option value="3">company admin</option>
+                </select>
+                <br>
 
-                    <input type="submit" value="Update" disabled="true">
-                    <input type="hidden" name="action" value="update">
-                </form>
-            </c:if>
-            <c:if test="${selectedUser ne null}">
-                <form action="users" method="POST">
-                    <input type="text" name="first_nameUp" placeholder="First Name" value="${selectedUser.first_name}"><br>
-                    <input type="text" name="last_nameUp" placeholder="Last Name" value="${selectedUser.last_name}"><br>
+                <input type="checkbox" name="activeUp" id="activeUp" value="activeUp"
+                       <c:if test="${selectedUser.active == true}">checked="ture"</c:if>
+                       >
+                <label for="activeUp">Active</label><br>
 
-                    <select name="roleUp">
-                        <c:if test="${selectedUser.role == 1}">
-                            <option value="1">system admin</option>
-                            <option value="2">regular user</option>
-                            <option value="3">company admin</option>
-                        </c:if>
-                        <c:if test="${selectedUser.role == 2}">
-                            <option value="2">regular user</option>
-                            <option value="1">system admin</option>
-                            <option value="3">company admin</option>
-                        </c:if>
-                        <c:if test="${selectedUser.role == 3}">
-                            <option value="3">company admin</option>
-                            <option value="1">system admin</option>
-                            <option value="2">regular user</option>
-                        </c:if>
-                    </select><br>
-
-                    <input type="checkbox" name="activeUp" id="activeUp" value="activeUp"
-                           <c:if test="${selectedUser.active == true}">checked="ture"</c:if>>
-                           <label for="activeUp">Active</label><br>
-
-                           <input type="submit" value="Update">
-                           <input type="hidden" name="action" value="update">
-                    </form>
-            </c:if>
-
+                <input type="submit" value="Update">
+                <input type="hidden" name="action" value="update">
+            </form>
 
         </div>
     </body>

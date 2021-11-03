@@ -94,14 +94,15 @@ public class UserDB {
         ConnectionPool cp = ConnectionPool.getInstance();
         Connection con = cp.getConnection();
         PreparedStatement ps = null;
-        String sql = "UPDATE user SET active=?, first_name=?, last_name=?, role=?, WHERE email=?";
+        String sql = "UPDATE user SET active=?, first_name=?, last_name=?, role=? WHERE email=?";
 
         try {
             ps = con.prepareStatement(sql);
-            ps.setBoolean(1, user.isActive());
+            ps.setInt(1, user.getRole());
             ps.setString(2, user.getFirst_name());
             ps.setString(3, user.getLast_name());
-            ps.setInt(4, user.getRole());
+            ps.setBoolean(4, user.isActive());
+            ps.setString(5, user.getEmail());
             ps.executeUpdate();
         } finally {
             DBUtil.closePreparedStatement(ps);
