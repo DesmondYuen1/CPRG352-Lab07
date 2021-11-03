@@ -6,24 +6,29 @@
     <body>
 
         <div>
-            <h2>Add User</h2>
+            <h1>Add User</h1>
             <form action="" method="POST">
-                <input type="email" name="email" placeholder="Email"><br>
-                <input type="text" name="first_name" placeholder="First Name"><br>
-                <input type="text" name="last_name" placeholder="Last Name"><br>
-                <input type="password" name="password" placeholder="Password"><br>
+                <input type="email" name="email" placeholder="Email" value=""><br>
+                <input type="text" name="first_name" placeholder="First Name" value=""><br>
+                <input type="text" name="last_name" placeholder="Last Name" value=""><br>
+                <input type="password" name="password" placeholder="Password" value=""><br>
+                
                 <select name="role">
                     <option value="1">system admin</option>
                     <option value="2">regular user</option>
                     <option value="3">company admin</option>
                 </select><br>
+                
                 <input type="checkbox" name="active" id="active" value="active">
-                <label for="active">Active</label>
+                <label for="active">Active</label><br>
+                
+                <input type="submit" value="Save">
+                <input type="hidden" name="action" value="add">
             </form>
         </div>
 
         <div>
-            <h2>Manage Users</h2>
+            <h1>Manage Users</h1>
             <table cellpadding="7" border="1">
                 <tr>
                     <th>Email</th>
@@ -31,6 +36,7 @@
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Role</th>
+                    <th>Delete</th>
                 </tr>
 
                 ${users}
@@ -39,5 +45,5 @@
         </div>
 
         <div>
-            <h2>Edit User</h2>
+            <h1>Edit User</h1>
         </div>
