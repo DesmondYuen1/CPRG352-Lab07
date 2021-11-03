@@ -9,20 +9,20 @@ import models.User;
 
 public class UserDB {
 
-    public List<User> getAll(String email) throws Exception {
+    public List<User> getAll() throws Exception {
         List<User> users = new ArrayList<>();
         ConnectionPool cp = ConnectionPool.getInstance();
         Connection con = cp.getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String sql = "SELECT * FROM user WHERE email=?";
+        String sql = "SELECT * FROM user";
 
         try {
             ps = con.prepareStatement(sql);
-            ps.setString(1, email);
             rs = ps.executeQuery();
             while (rs.next()) {
+                String email = rs.getString(1);
                 boolean active = rs.getBoolean(2);
                 String first_name = rs.getString(3);
                 String last_name = rs.getString(4);
