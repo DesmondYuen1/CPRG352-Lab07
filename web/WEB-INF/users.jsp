@@ -103,17 +103,30 @@
                     <input type="text" name="last_nameUp" placeholder="Last Name" value="${selectedUser.last_name}"><br>
 
                     <select name="roleUp">
-                        <option value="1">system admin</option>
-                        <option value="2">regular user</option>
-                        <option value="3">company admin</option>
+                        <c:if test="${selectedUser.role == 1}">
+                            <option value="1">system admin</option>
+                            <option value="2">regular user</option>
+                            <option value="3">company admin</option>
+                        </c:if>
+                        <c:if test="${selectedUser.role == 2}">
+                            <option value="2">regular user</option>
+                            <option value="1">system admin</option>
+                            <option value="3">company admin</option>
+                        </c:if>
+                        <c:if test="${selectedUser.role == 3}">
+                            <option value="3">company admin</option>
+                            <option value="1">system admin</option>
+                            <option value="2">regular user</option>
+                        </c:if>
                     </select><br>
 
-                    <input type="checkbox" name="activeUp" id="activeUp" value="activeUp">
-                    <label for="activeUp">Active</label><br>
+                    <input type="checkbox" name="activeUp" id="activeUp" value="activeUp"
+                           <c:if test="${selectedUser.active == true}">checked="ture"</c:if>>
+                           <label for="activeUp">Active</label><br>
 
-                    <input type="submit" value="Update">
-                    <input type="hidden" name="action" value="update">
-                </form>
+                           <input type="submit" value="Update">
+                           <input type="hidden" name="action" value="update">
+                    </form>
             </c:if>
 
 

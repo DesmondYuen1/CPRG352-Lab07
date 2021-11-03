@@ -21,6 +21,7 @@ public class UserServlet extends HttpServlet {
 
         String action = request.getParameter("action");
         if (action != null) {
+            
             if (action.equals("edit")) {
                 String selectedUser = request.getParameter("selectedUser");
                 try {
@@ -38,6 +39,7 @@ public class UserServlet extends HttpServlet {
                     Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            
             if (action.equals("delete")) {
                 String deletedUser = request.getParameter("deletedUser");
                 try {
@@ -47,7 +49,6 @@ public class UserServlet extends HttpServlet {
                 }
 
             }
-
             try {
                 List<User> users = us.getAll();
                 request.setAttribute("users", users);
@@ -56,7 +57,6 @@ public class UserServlet extends HttpServlet {
             }
             response.sendRedirect("users");
             return;
-
         }
 
         try {
