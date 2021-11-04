@@ -80,68 +80,67 @@ public class UserServlet extends HttpServlet {
         String action = request.getParameter("action");
         if (action != null) {
 
-            if (action.equals("add")) {
-                try {
-                    String email = request.getParameter("email");
-                    String first_name = request.getParameter("first_name");
-                    String last_name = request.getParameter("last_name");
-                    String password = request.getParameter("password");
-                    int role = Integer.parseInt(request.getParameter("role"));
-                    Boolean active = false;
-                    if (request.getParameter("active") != null) {
-                        active = true;
+            switch (action) {
+                case "add":
+                    try {
+                        String email = request.getParameter("email");
+                        String first_name = request.getParameter("first_name");
+                        String last_name = request.getParameter("last_name");
+                        String password = request.getParameter("password");
+                        int role = Integer.parseInt(request.getParameter("role"));
+                        Boolean active = null;
+                        if (request.getParameter("active[]").equals("yes")) {
+                            active = true;
+                        } else if (request.getParameter("active[]").equals("no")) {
+                            active = false;
+                        }
+
+                        us.insert(email, active, first_name, last_name, password, role);
+
+                    } catch (Exception ex) {
+                        Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
-                    us.insert(email, active, first_name, last_name, password, role);
+                    try {
+                        List<User> users = us.getAll();
+                        request.setAttribute("users", users);
+                    } catch (Exception ex) {
+                        Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
+                    return;
 
-                } catch (Exception ex) {
-                    Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                case "edit":
+                    try {
+                        String email = request.getParameter("selectedUser");
+                        User user = us.get(email);
+                        String first_name = request.getParameter("first_nameUp");
+                        String last_name = request.getParameter("last_nameUp");
+                        String roleTitle = request.getParameter("roleUp");
+                        int role = Integer.parseInt(request.getParameter("roleUp"));
+                        Boolean active = null;
+                        if (request.getParameter("activeUp[]").equals("yesUp")) {
+                            active = true;
+                        } else if (request.getParameter("activeUp[]").equals("noUp")) {
+                            active = false;
+                        }
 
-                try {
-                    List<User> users = us.getAll();
-                    request.setAttribute("users", users);
-                } catch (Exception ex) {
-                    Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
-                return;
-            }
-            if (action.equals("edit")) {
-                try {
-                    String email = request.getParameter("selectedUser");
-                    User user = us.get(email);
-                    String first_name = request.getParameter("first_nameUp");
-                    String last_name = request.getParameter("last_nameUp");
-                    int role = Integer.parseInt(request.getParameter("roleUp"));
-                    Boolean active = false;
-                    if (request.getParameter("activeUp") != null) {
-                        active = true;
+                        us.update(email, active, first_name, last_name, user.getPassword(), role);
+
+                    } catch (Exception ex) {
+                        Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
-                    us.update(email, active, first_name, last_name, user.getPassword(), role);
-                    User updatedUser = us.get(email);
-                    String message = "User updated: ";
-                    message += updatedUser.getEmail() + ", ";
-                    message += updatedUser.getFirst_name() + ", ";
-                    message += updatedUser.getLast_name() + ", ";
-                    message += updatedUser.isActive() + ", ";
-                    message += updatedUser.getRole();
-                    request.setAttribute("message", message);
-
-                } catch (Exception ex) {
-                    Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                try {
-                    List<User> users = us.getAll();
-                    request.setAttribute("users", users);
-                } catch (Exception ex) {
-                    Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                response.sendRedirect("users");
-                return;
+                    try {
+                        List<User> users = us.getAll();
+                        request.setAttribute("users", users);
+                    } catch (Exception ex) {
+                        Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    response.sendRedirect("users");
+                    return;
             }
+            
         }
         try {
             List<User> users = us.getAll();

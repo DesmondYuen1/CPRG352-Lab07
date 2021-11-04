@@ -23,8 +23,11 @@
                     <option value="3">company admin</option>
                 </select><br>
 
-                <input type="checkbox" name="active" id="active" value="active">
-                <label for="active">Active</label><br>
+                Active:
+                <input type="radio" id="yes" name="active[]" value="yes" required>
+                <label for="yes">Yes</label>
+                <input type="radio" id="no" name="active[]" value="no">
+                <label for="no">No</label>
 
                 <input type="submit" value="Save">
                 <input type="hidden" name="action" value="add">
@@ -32,7 +35,6 @@
         </div>
 
         <div>
-            ${message}
             <h1>Manage Users</h1>
             <table cellpadding="7" border="1">
                 <tr>
@@ -92,10 +94,16 @@
                 </select>
                 <br>
 
-                <input type="checkbox" name="activeUp" id="activeUp" value="activeUp"
-                       <c:if test="${selectedUser.active == true}">checked="ture"</c:if>
+                Active:
+                <input type="radio" id="yesUp" name="activeUp[]" value="yesUp"
+                       <c:if test="${selectedUser.active == true}">checked</c:if>
+                           >
+                       <label for="yesUp">Yes</label>
+                       <input type="radio" id="noUp" name="activeUp[]" value="noUp"
+                       <c:if test="${selectedUser.active == false}">checked</c:if>
                        >
-                <label for="activeUp">Active</label><br>
+                <label for="noUp">No</label>
+                <br>
 
                 <input type="submit" value="Update">
                 <input type="hidden" name="action" value="update">
