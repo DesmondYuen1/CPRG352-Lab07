@@ -80,6 +80,9 @@ public class UserServlet extends HttpServlet {
         String action = request.getParameter("action");
         if (action != null) {
 
+            Boolean active = null;
+            int role = 0;
+
             switch (action) {
                 case "add":
                     try {
@@ -87,12 +90,26 @@ public class UserServlet extends HttpServlet {
                         String first_name = request.getParameter("first_name");
                         String last_name = request.getParameter("last_name");
                         String password = request.getParameter("password");
-                        int role = Integer.parseInt(request.getParameter("role"));
-                        Boolean active = null;
-                        if (request.getParameter("active[]").equals("yes")) {
-                            active = true;
-                        } else if (request.getParameter("active[]").equals("no")) {
-                            active = false;
+
+                        switch (request.getParameter("role")) {
+                            case "1":
+                                role = 1;
+                                break;
+                            case "2":
+                                role = 2;
+                                break;
+                            case "3":
+                                role = 3;
+                                break;
+                        }
+
+                        switch (request.getParameter("active[]")) {
+                            case "yes":
+                                active = true;
+                                break;
+                            case "no":
+                                active = false;
+                                break;
                         }
 
                         us.insert(email, active, first_name, last_name, password, role);
@@ -116,13 +133,26 @@ public class UserServlet extends HttpServlet {
                         User user = us.get(email);
                         String first_name = request.getParameter("first_nameUp");
                         String last_name = request.getParameter("last_nameUp");
-                        String roleTitle = request.getParameter("roleUp");
-                        int role = Integer.parseInt(request.getParameter("roleUp"));
-                        Boolean active = null;
-                        if (request.getParameter("activeUp[]").equals("yesUp")) {
-                            active = true;
-                        } else if (request.getParameter("activeUp[]").equals("noUp")) {
-                            active = false;
+
+                        switch (request.getParameter("roleUp")) {
+                            case "1":
+                                role = 1;
+                                break;
+                            case "2":
+                                role = 2;
+                                break;
+                            case "3":
+                                role = 3;
+                                break;
+                        }
+
+                        switch (request.getParameter("activeUp[]")) {
+                            case "yesUp":
+                                active = true;
+                                break;
+                            case "noUp":
+                                active = false;
+                                break;
                         }
 
                         us.update(email, active, first_name, last_name, user.getPassword(), role);
@@ -140,7 +170,7 @@ public class UserServlet extends HttpServlet {
                     response.sendRedirect("users");
                     return;
             }
-            
+
         }
         try {
             List<User> users = us.getAll();

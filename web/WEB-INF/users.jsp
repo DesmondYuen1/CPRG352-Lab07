@@ -6,10 +6,30 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Users</title>
+        <style>
+            body {
+                background-color: grey;
+                color: white;
+            }
+            #addUser {
+                padding-right: 20px;
+                display: inline-block;
+                position: relative;
+            }
+            #manageUser {
+                display: inline-block;
+                position: absolute;
+            }
+            #editUser {
+                padding-left: 710px;
+                display: inline-block;
+                position: absolute;
+            }
+        </style>
     </head>
     <body>
 
-        <div>
+        <div id="addUser">
             <h1>Add User</h1>
             <form action="" method="POST">
                 <input type="email" name="email" placeholder="Email" value=""><br>
@@ -28,21 +48,20 @@
                 <label for="yes">Yes</label>
                 <input type="radio" id="no" name="active[]" value="no">
                 <label for="no">No</label>
+                <br>
 
                 <input type="submit" value="Save">
                 <input type="hidden" name="action" value="add">
             </form>
         </div>
 
-        <div>
+        <div id="manageUser">
             <h1>Manage Users</h1>
             <table cellpadding="7" border="1">
                 <tr>
                     <th>Email</th>
-                    <th>Active</th>
                     <th>First Name</th>
                     <th>Last Name</th>
-                    <th>Role</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
@@ -50,27 +69,8 @@
                 <c:forEach items="${users}" var="user">
                     <tr>
                         <td>${user.email}</td>
-                        <td>
-                            <c:if test="${user.active}">
-                                active
-                            </c:if>
-                            <c:if test="${user.active == false}">
-                                inactive
-                            </c:if>
-                        </td>
                         <td>${user.first_name}</td>
                         <td>${user.last_name}</td>
-                        <td>
-                            <c:if test="${user.role == 1}">
-                                system admin
-                            </c:if>
-                            <c:if test="${user.role == 2}">
-                                regular user
-                            </c:if>
-                            <c:if test="${user.role == 3}">
-                                company admin
-                            </c:if>
-                        </td>
                         <td><a href="users?action=edit&selectedUser=${user.email}">Edit</a></td>
                         <td><a href="users?action=delete&deletedUser=${user.email}">Delete</a></td>
                     </tr>
@@ -79,7 +79,7 @@
             </table>
         </div>
 
-        <div>
+        <div id="editUser">
             <h1>Edit User</h1>
 
             <form action="" method="POST">
@@ -88,20 +88,26 @@
 
 
                 <select name="roleUp">
-                    <option value="1">system admin</option>
-                    <option value="2">regular user</option>
-                    <option value="3">company admin</option>
-                </select>
-                <br>
+                    <option value="1"
+                            <c:if test="${selectedUser.role == 1}">selected</c:if>
+                                >system admin</option>
+                            <option value="2"
+                            <c:if test="${selectedUser.role == 2}">selected</c:if>
+                                >regular user</option>
+                            <option value="3"
+                            <c:if test="${selectedUser.role == 3}">selected</c:if>
+                                >company admin</option>
+                    </select>
+                    <br>
 
-                Active:
-                <input type="radio" id="yesUp" name="activeUp[]" value="yesUp"
-                       <c:if test="${selectedUser.active == true}">checked</c:if>
-                           >
-                       <label for="yesUp">Yes</label>
-                       <input type="radio" id="noUp" name="activeUp[]" value="noUp"
-                       <c:if test="${selectedUser.active == false}">checked</c:if>
-                       >
+                    Active:
+                    <input type="radio" id="yesUp" name="activeUp[]" value="yesUp"
+                    <c:if test="${selectedUser.active == true}">checked</c:if>
+                        >
+                    <label for="yesUp">Yes</label>
+                    <input type="radio" id="noUp" name="activeUp[]" value="noUp"
+                    <c:if test="${selectedUser.active == false}">checked</c:if>
+                    >
                 <label for="noUp">No</label>
                 <br>
 
